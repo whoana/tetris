@@ -42,7 +42,7 @@ for(let i = 0 ; i < 20 ; i ++){
 
 ReactDOM.render(
   <div>
-    <GameController playground={playground} resetGame={() => document.location.reload()}/>
+    <GameController playground={playground} resetGame={(callback) => {document.location.reload(); callback(EMPTY_WALL)}}/>
   </div>,
   document.getElementById('root')
 );

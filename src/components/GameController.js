@@ -184,6 +184,11 @@ export default class GameController extends Component{
         this.level = 1
         this.gameOver = true
         //this.score = 0
+
+        this.focus = this.focus.bind(this)
+
+
+        window.addEventListener('keydown', this.handleControlKey)
     }
 
     startGame(){
@@ -492,26 +497,40 @@ export default class GameController extends Component{
         }
     }
 
+    focus(param){
+        console.log(param)
+    }
+
     render(){
+        
         return(
             <>
                 <div className="flex">
                     <label>Point:{this.state.score}</label>
-                    <button onClick={this.startGame}>Start</button><button onClick={this.props.resetGame}>Reset</button>
+                    <button onClick={this.startGame}>Start</button>
+                    <button onClick={() => this.props.resetGame(this.focus)}>Reset</button>
                 </div>
-                <div  className="flex" onKeyDown={this.handleControlKey} tabIndex={-1}>
-                    <Playground playground={this.props.playground} />
-                </div>
-                <div  className="flex">
-                    <button onClick={this.rotate}>Rotate</button>
-                </div>
-                <div  className="flex">
-                    <button onClick={this.moveToLeft}>Left</button>
-                    <button onClick={this.moveToDown}>Down</button>
-                    <button onClick={this.moveToRight}>Right</button>
-                </div>
-                <div  className="flex">
-                    <button onClick={this.moveToBottom}>Bottom</button>
+                <div className="flex">
+                    {/* <div  className="flex" onKeyDown={this.handleControlKey} tabIndex={-1}> */}
+                    <div  className="flex" onKeyDown={this.handleControlKey} tabIndex={-1}>
+                        <Playground playground={this.props.playground} />
+                    </div>
+                    <br></br>
+                    <div>
+                    <div  className="flex">
+                        <button onClick={this.rotate}>Rotate</button>
+                    </div>
+                    <br></br>
+                    <div  className="flex">
+                        <button onClick={this.moveToLeft}>Left</button>
+                        <button onClick={this.moveToDown}>Down</button>
+                        <button onClick={this.moveToRight}>Right</button>
+                    </div>
+                    <br></br>
+                    <div  className="flex">
+                        <button onClick={this.moveToBottom}>Bottom</button>
+                    </div>
+                    </div>
                 </div>
             </>
         )
