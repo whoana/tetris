@@ -1,0 +1,39 @@
+div :focus {
+    outline: none;
+}
+
+.playground {
+    border: 1px;
+    border-color: blueviolet;
+    border-style: solid;
+    width: 300px;
+    height: 600px;
+}
+
+.playground .wall {
+    display: flex;
+}
+
+.playground .wall .empty{
+    flex-grow: 1;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(228, 220, 220);
+    outline: auto;
+}
+
+.playground .wall .block-i{
+    flex-grow: 1;
+    width: 30px;
+    height: 30px;
+    background-color: purple;
+    outline: auto;
+}
+
+.playground .wall .freezed{
+    flex-grow: 1;
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+    outline: auto;
+}
