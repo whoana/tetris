@@ -495,22 +495,22 @@ export default class GameController extends Component{
     render(){
         return(
             <>
-                <div>
+                <div className="flex">
                     <label>Point:{this.state.score}</label>
-                    <button onClick={this.startGame}>Start</button>
+                    <button onClick={this.startGame}>Start</button><button onClick={this.props.resetGame}>Reset</button>
                 </div>
-                <div onKeyDown={this.handleControlKey} tabIndex={-1}>
+                <div  className="flex" onKeyDown={this.handleControlKey} tabIndex={-1}>
                     <Playground playground={this.props.playground} />
                 </div>
-                <div>
+                <div  className="flex">
                     <button onClick={this.rotate}>Rotate</button>
                 </div>
-                <div>
+                <div  className="flex">
                     <button onClick={this.moveToLeft}>Left</button>
                     <button onClick={this.moveToDown}>Down</button>
                     <button onClick={this.moveToRight}>Right</button>
                 </div>
-                <div>
+                <div  className="flex">
                     <button onClick={this.moveToBottom}>Bottom</button>
                 </div>
             </>

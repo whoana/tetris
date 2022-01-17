@@ -42,7 +42,7 @@ for(let i = 0 ; i < 20 ; i ++){
 
 ReactDOM.render(
   <div>
-    <GameController playground={playground} />
+    <GameController playground={playground} resetGame={() => document.location.reload()}/>
   </div>,
   document.getElementById('root')
 );
