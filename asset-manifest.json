@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/whoana.io/static/css/main.3378f995.css",
-    "main.js": "/whoana.io/static/js/main.bbdacdd9.js",
-    "index.html": "/whoana.io/index.html",
-    "main.3378f995.css.map": "/whoana.io/static/css/main.3378f995.css.map",
-    "main.bbdacdd9.js.map": "/whoana.io/static/js/main.bbdacdd9.js.map"
+    "main.css": "/tetris/static/css/main.3378f995.css",
+    "main.js": "/tetris/static/js/main.bbdacdd9.js",
+    "index.html": "/tetris/index.html",
+    "main.3378f995.css.map": "/tetris/static/css/main.3378f995.css.map",
+    "main.bbdacdd9.js.map": "/tetris/static/js/main.bbdacdd9.js.map"
   },
   "entrypoints": [
     "static/css/main.3378f995.css",
