@@ -140,7 +140,7 @@ let playground
 let oldTetromino
 let tetromino
 let current
-let score = 0
+//let score = 0
 //let timerId
 //let gameOver = false
 
@@ -181,7 +181,7 @@ export default class GameController extends Component{
         this.width = this.props.playground.walls[0].blocks.length
         this.level = 1
         this.gameOver = true
-
+        this.score = 0
     }
 
     startGame(){
@@ -379,6 +379,8 @@ export default class GameController extends Component{
                 })
                   
                 if(isFreezed) {
+                    this.score += 10
+                    console.log("score:" + this.score)
                     walls.splice(y, 1)
 
 
