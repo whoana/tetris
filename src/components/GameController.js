@@ -158,12 +158,14 @@ export default class GameController extends Component{
     constructor(props){
         super(props)
         this.state = {
+            score : 0, 
             walls : this.props.playground.walls
         }
         this.handleControlKey = this.handleControlKey.bind(this)
         this.startGame = this.startGame.bind(this)
         //this.start = this.start.bind(this)
         this.isGameOver = this.isGameOver.bind(this)
+        this.moveToDown = this.moveToDown.bind(this)
         this.moveToLeft = this.moveToLeft.bind(this)
         this.moveToRight = this.moveToRight.bind(this)
         this.moveToBottom = this.moveToBottom.bind(this)
@@ -181,7 +183,7 @@ export default class GameController extends Component{
         this.width = this.props.playground.walls[0].blocks.length
         this.level = 1
         this.gameOver = true
-        this.score = 0
+        //this.score = 0
     }
 
     startGame(){
@@ -298,6 +300,7 @@ export default class GameController extends Component{
     }
 
     moveToDown(){
+        console.log('moveToDown')
         if(this.movable(0,1)){
             this.move(0, 1)
         }else{
@@ -379,8 +382,9 @@ export default class GameController extends Component{
                 })
                   
                 if(isFreezed) {
-                    this.score += 10
-                    console.log("score:" + this.score)
+                    //this.score += 10
+                    this.setState((prevState) => {return {score: prevState.score + 10}})
+                    console.log("score:" + this.state.score)
                     walls.splice(y, 1)
 
 
@@ -490,9 +494,26 @@ export default class GameController extends Component{
 
     render(){
         return(
-            <div onKeyDown={this.handleControlKey} tabIndex={-1}>
-                <Playground playground={this.props.playground} />
-            </div>
+            <>
+                <div>
+                    <label>Point:{this.state.score}</label>
+                    <button onClick={this.startGame}>Start</button>
+                </div>
+                <div onKeyDown={this.handleControlKey} tabIndex={-1}>
+                    <Playground playground={this.props.playground} />
+                </div>
+                <div>
+                    <button onClick={this.rotate}>Rotate</button>
+                </div>
+                <div>
+                    <button onClick={this.moveToLeft}>Left</button>
+                    <button onClick={this.moveToDown}>Down</button>
+                    <button onClick={this.moveToRight}>Right</button>
+                </div>
+                <div>
+                    <button onClick={this.moveToBottom}>Bottom</button>
+                </div>
+            </>
         )
     }
 }
