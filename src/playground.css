@@ -30,10 +30,45 @@ div :focus {
     outline: auto;
 }
 
-.playground .wall .freezed{
+/* .playground .wall .freezed{
     flex-grow: 1;
     width: 30px;
     height: 30px;
     background-color: grey;
+    outline: auto; 
+} */
+
+.playground .wall .tetromino{
+    flex-grow: 1;
+    width: 30px;
+    height: 30px;
     outline: auto;
+}
+
+.iTetromino{
+    background-color: rgb(82, 172, 222);
+}
+
+.jTetromino{
+    background-color: rgb(33,80, 153);
+}
+
+.lTetromino{
+    background-color: rgb(235, 154, 62);
+}
+
+.oTetromino{
+    background-color: rgb(249, 224, 76);
+}
+
+.sTetromino{
+    background-color: rgb(106,180,85);
+}
+
+.tTetromino{
+    background-color: rgb(135,51,136);
+}
+
+.zTetromino{
+    background-color: rgb(220,58,57);
 }

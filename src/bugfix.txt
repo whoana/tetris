@@ -1,0 +1,40 @@
+Unchecked runtime.lastError: The message port closed before a response was received.
+127.0.0.1/:1 Unchecked runtime.lastError: The message port closed before a response was received.
+Game.js:216 startGame
+react-dom.development.js:67 Warning: An update (setState, replaceState, or forceUpdate) was scheduled from inside an update function. Update functions should be pure, with zero side-effects. Consider using componentDidUpdate or a callback.
+    at GameController (http://127.0.0.1:3000/static/js/bundle.js:190:5)
+    at div
+printWarning @ react-dom.development.js:67
+Game.js:252 Uncaught TypeError: Cannot read properties of undefined (reading 'blocks')
+    at Game.js:252:1
+    at Array.forEach (<anonymous>)
+    at GameController.<anonymous> (Game.js:249:1)
+    at getStateFromUpdate (react-dom.development.js:12102:1)
+    at processUpdateQueue (react-dom.development.js:12250:1)
+    at updateClassInstance (react-dom.development.js:13013:1)
+    at updateClassComponent (react-dom.development.js:17432:1)
+    at beginWork (react-dom.development.js:19073:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994:1)
+react-dom.development.js:20085 The above error occurred in the <GameController> component:
+
+    at GameController (http://127.0.0.1:3000/static/js/bundle.js:190:5)
+    at div
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ react-dom.development.js:20085
+react-dom.development.js:11340 Uncaught TypeError: Cannot read properties of undefined (reading 'blocks')
+    at Game.js:252:1
+    at Array.forEach (<anonymous>)
+    at GameController.<anonymous> (Game.js:249:1)
+    at getStateFromUpdate (react-dom.development.js:12102:1)
+    at processUpdateQueue (react-dom.development.js:12250:1)
+    at updateClassInstance (react-dom.development.js:13013:1)
+    at updateClassComponent (react-dom.development.js:17432:1)
+    at beginWork (react-dom.development.js:19073:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:3945:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:3994:1)
+react-dom.development.js:67 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
+    at GameController (http://127.0.0.1:3000/static/js/bundle.js:190:5)
+    at div

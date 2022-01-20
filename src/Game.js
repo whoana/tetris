@@ -117,11 +117,22 @@ const POSITIONS = {
     ]
 }
 
+const BLOCK_CLASSES = {
+    [iTetromino]: "iTetromino",
+    [jTetromino]: "jTetromino",
+    [lTetromino]: "lTetromino",
+    [oTetromino]: "oTetromino",
+    [sTetromino]: "sTetromino",
+    [tTetromino]: "tTetromino",
+    [zTetromino]: "zTetromino"
+}
+
 class Tetromino {
     constructor(type, direction) {
         this.type = type
         this.direction = direction
-        this.positions = POSITIONS[this.type][this.direction];
+        this.positions = POSITIONS[this.type][this.direction]
+        this.blockClass = "tetromino " + BLOCK_CLASSES[this.type]
     }
 }
  
@@ -223,7 +234,8 @@ export default class GameController extends Component {
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
                 const y = position.y + this.current.y
-                walls[y].blocks[x].className = 'block-i'
+                //walls[y].blocks[x].className = 'block-i'
+                walls[y].blocks[x].className = this.tetromino.blockClass
             })
             return { walls: walls }
         })
@@ -233,6 +245,24 @@ export default class GameController extends Component {
 
     move(dx, dy) {
         this.setState(prevState => {
+            // const walls = prevState.walls
+            // this.tetromino.positions.forEach(position => {
+            //     const x = position.x + this.current.x
+            //     const y = position.y + this.current.y
+            //     walls[y].blocks[x].className = 'empty'
+            // })
+ 
+            // this.current.x += dx
+            // this.current.y += dy 
+
+            // this.tetromino.positions.forEach(position => {
+            //     const x = position.x + this.current.x
+            //     const y = position.y + this.current.y
+            //     //walls[y].blocks[x].className = 'block-i'
+            //     walls[y].blocks[x].className = this.tetromino.blockClass
+            // })
+            // return { walls: walls }
+
             const walls = prevState.walls
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
@@ -246,9 +276,11 @@ export default class GameController extends Component {
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
                 const y = position.y + this.current.y
-                walls[y].blocks[x].className = 'block-i'
+                //walls[y].blocks[x].className = 'block-i'
+                walls[y].blocks[x].className = this.tetromino.blockClass
             })
             return { walls: walls }
+
         })
     }
 
@@ -271,7 +303,8 @@ export default class GameController extends Component {
                 this.tetromino.positions.forEach(position => {
                     const x = position.x + this.current.x
                     const y = position.y + this.current.y
-                    walls[y].blocks[x].className = 'block-i'
+                    //walls[y].blocks[x].className = 'block-i'
+                    walls[y].blocks[x].className = this.tetromino.blockClass
                 })
                 return { walls: walls }
             })
@@ -322,7 +355,8 @@ export default class GameController extends Component {
         return this.state.status !== gameOver && !this.tetromino.positions.some(position => {
             let x = position.x + this.current.x + dx
             let y = position.y + this.current.y + dy
-            return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className === 'freezed'
+            //return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className === 'freezed'
+            return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className.includes('freezed')
         })
     }
 
@@ -330,7 +364,8 @@ export default class GameController extends Component {
         return this.state.status !== gameOver && !positions.some(position => {
             let x = position.x + this.current.x
             let y = position.y + this.current.y
-            return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className === 'freezed'
+            //return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className === 'freezed'
+            return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className.includes('freezed')
         })
     }
 
@@ -341,21 +376,23 @@ export default class GameController extends Component {
             this.tetromino.positions.forEach(position => {
                 let x = position.x + this.current.x
                 let y = position.y + this.current.y
-                walls[y].blocks[x].className = 'freezed'
+                walls[y].blocks[x].className = walls[y].blocks[x].className + ' freezed'
             });
             return { walls: walls }
         })
     }
 
     calcurate() {
-
+        let score = this.state.score;
         this.setState(prevState => {
             const walls = prevState.walls
             let status = prevState.status
             this.tetromino.positions.forEach(position => {
                 let x = position.x + this.current.x
                 let y = position.y + this.current.y
-                walls[y].blocks[x].className = 'freezed'
+                //walls[y].blocks[x].className = 'freezed'
+                walls[y].blocks[x].className = walls[y].blocks[x].className + ' freezed'
+                
             });
 
             let max = 0
@@ -368,12 +405,14 @@ export default class GameController extends Component {
 
             for (let y = min; y <= max; y++) {
                 const isFreezed = walls[y].blocks.every(block => {
-                    return block.className === 'freezed'
+                    //return block.className === 'freezed'
+                    return block.className.includes('freezed')
                 })
 
                 if (isFreezed) {
                     //this.score += 10
-                    this.setState((prevState) => { return { score: prevState.score + 10 } })
+                    //this.setState((prevState) => { return { score: prevState.score + 10 } })
+                    score += 10
                     walls.splice(y, 1)
 
 
@@ -411,7 +450,8 @@ export default class GameController extends Component {
                 this.tetromino.positions.forEach(position => {
                     const x = position.x + this.current.x
                     const y = position.y + this.current.y
-                    walls[y].blocks[x].className = 'block-i'
+                    //walls[y].blocks[x].className = 'block-i'
+                    walls[y].blocks[x].className = this.tetromino.blockClass
                 })
             } else {
                  
@@ -420,7 +460,7 @@ export default class GameController extends Component {
                 clearInterval(this.timerId)
             }
 
-            return { walls: walls, status: status}
+            return { walls: walls, status: status, score: score}
         })
 
         if (this.state.status === gameOver) console.log('Game Over!')
@@ -441,9 +481,7 @@ export default class GameController extends Component {
                 break
             case 32:
                 //debugger
-                //clearInterval(this,this.timerId)
                 this.moveToBottom()
-                //this.timerId = setInterval(()=>{ this.moveToDown() }, 1000 - 100 * (this.level - 1))
                 break
             case 37:
                 this.moveToLeft()
@@ -484,15 +522,15 @@ export default class GameController extends Component {
             <>
                 <div className="flex">
                     <label>Point:{this.state.score}</label>
-                    <button onClick={this.startGame}>Start</button>
-                    <button onClick={this.resetGame}>Reset</button>
+                    {/* <button onClick={this.startGame}>Start</button>
+                    <button onClick={this.resetGame}>Reset</button> */}
                 </div>
                 <div className="flex">
                     {/* <div  className="flex" onKeyDown={this.handleControlKey} tabIndex={-1}> */}
                     <div className="flex">
                         <Playground playground={PLAYGROUND} />
                     </div>
-                    <br></br>
+                    {/* <br></br>
                     <div>
                         <div className="flex">
                             <button onClick={this.rotate}>Rotate</button>
@@ -507,7 +545,7 @@ export default class GameController extends Component {
                         <div className="flex">
                             <button onClick={this.moveToBottom}>Bottom</button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </>
         )
