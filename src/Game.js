@@ -3,9 +3,7 @@ import './playground.css'
 
   
 const EMPTY_WALL = {
-    id: '',
     className: 'wall',
-    position: 0,
     blocks:[],
 }
  
@@ -17,8 +15,6 @@ const PLAYGROUND = {
 //blocks 를 이단계에서 복사하지않으면 얕은 복사가 되어 blocks 는 새로 부여되지 한는다. 따라서 블럭의 스타일도 복사되지않아 상태 처리시 문제가 됨다.
 for (let i = 0; i < 20; i++) {
     const wall = Object.assign({}, EMPTY_WALL)
-    wall.id = 'wid' + i
-    wall.position = i
     wall.blocks = [
         { className: 'empty' },
         { className: 'empty' },
@@ -354,7 +350,7 @@ export default class GameController extends Component {
     calcurate() {
         let score = this.state.score;
         this.setState(prevState => {
-            const walls = prevState.walls
+            let walls = prevState.walls
             let status = prevState.status
             this.tetromino.positions.forEach(position => {
                 let x = position.x + this.current.x
@@ -376,17 +372,15 @@ export default class GameController extends Component {
                     return block.className.includes('freezed')
                 })
 
-                if (isFreezed) {
-                    //this.score += 10
-                    //this.setState((prevState) => { return { score: prevState.score + 10 } })
+                if (isFreezed) { 
                     score += 10
 
                     //불변성 유지를 위해 코드값 변경 
                     //walls.splice(y, 1)
-                    walls.filter((wall,index) => index !== y )
-
-                    let wall = Object.assign({}, EMPTY_WALL)  
-                    wall.blocks = [
+                    const deleteWalls = walls.filter((wall,index) => index !== y )
+                    console.log(deleteWalls)
+                    let newWall = Object.assign({}, EMPTY_WALL)  
+                    newWall.blocks = [
                             { className: 'empty' },
                             { className: 'empty' },
                             { className: 'empty' },
@@ -398,10 +392,12 @@ export default class GameController extends Component {
                             { className: 'empty' },
                             { className: 'empty' },
                         ]
-                    
+                    //let firstWalls = [wall]
+                    //console.log(firstWalls)
                     //불변성 유지를 위해 코드값 변경 
                     //walls.unshift(wall)
-                    walls = wall.concat(walls)
+                    walls = [newWall].concat(deleteWalls)
+                    console.log(walls)
                 }
             }
 
@@ -417,9 +413,9 @@ export default class GameController extends Component {
                 //this.start()
                 this.tetromino.positions.forEach(position => {
                     const x = position.x + this.current.x
-                    const y = position.y + this.current.y
-                    //walls[y].blocks[x].className = 'block-i'
-                    walls[y].blocks[x].className = this.tetromino.blockClass
+                    const y = position.y + this.current.y 
+                     
+                    walls[y].blocks[x] = {...walls[y].blocks[x], className: this.tetromino.blockClass}
                 })
             } else {
                  
@@ -436,11 +432,11 @@ export default class GameController extends Component {
  
     handleControlKey(event) {
         //console.log(event.keyCode)
-        if (this.state.status === gameOver) {
+        if((event.keyCode !== 71 && this.state.status === beforeGame) || this.state.status === gameOver){
             console.log("game over or game did not start.")
             return
-        }
-
+        } 
+        
         switch (event.keyCode) {
             case 71:
                 if (this.state.status === beforeGame) {
