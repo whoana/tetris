@@ -436,18 +436,14 @@ export default class GameController extends Component {
             console.log("game over or game did not start.")
             return
         } 
-        
+
         switch (event.keyCode) {
             case 71:
                 if (this.state.status === beforeGame) {
                     this.startGame()
                 } 
                 break
-            case 32:
-                //debugger
-                // clearInterval(this.timerId)
-                // this.moveToBottom()
-                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+            case 32: 
                 this.restartMoveDownInterval(this.moveToBottom)
                 break
             case 37:
@@ -462,16 +458,10 @@ export default class GameController extends Component {
             case 87:
                 this.rotate()
                 break
-            case 40: 
-                // clearInterval(this.timerId)
-                // this.moveToDown()
-                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+            case 40:  
                 this.restartMoveDownInterval(this.moveToDown)
                 break
-            case 83:
-                // clearInterval(this.timerId)
-                // this.moveToDown()
-                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+            case 83: 
                 this.restartMoveDownInterval(this.moveToDown)
                 break
             case 39:
