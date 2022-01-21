@@ -1,16 +1,14 @@
 import React, { Component } from "react"
 import './playground.css'
 
-
+  
 const EMPTY_WALL = {
     id: '',
     className: 'wall',
     position: 0,
-    blocks: [],
+    blocks:[],
 }
-
-
-
+ 
 const PLAYGROUND = {
     className: 'playground',
     walls: [],
@@ -18,20 +16,20 @@ const PLAYGROUND = {
 
 //blocks 를 이단계에서 복사하지않으면 얕은 복사가 되어 blocks 는 새로 부여되지 한는다. 따라서 블럭의 스타일도 복사되지않아 상태 처리시 문제가 됨다.
 for (let i = 0; i < 20; i++) {
-    const wall = Object.assign({}, EMPTY_WALL);
+    const wall = Object.assign({}, EMPTY_WALL)
     wall.id = 'wid' + i
     wall.position = i
     wall.blocks = [
-        { id: 'bid' + 0, className: 'empty' },
-        { id: 'bid' + 1, className: 'empty' },
-        { id: 'bid' + 2, className: 'empty' },
-        { id: 'bid' + 3, className: 'empty' },
-        { id: 'bid' + 4, className: 'empty' },
-        { id: 'bid' + 5, className: 'empty' },
-        { id: 'bid' + 6, className: 'empty' },
-        { id: 'bid' + 7, className: 'empty' },
-        { id: 'bid' + 8, className: 'empty' },
-        { id: 'bid' + 9, className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
+        { className: 'empty' },
     ]
 
     PLAYGROUND.walls.push(wall)
@@ -196,8 +194,11 @@ export default class GameController extends Component {
 
         this.move = this.move.bind(this)
         this.movable = this.movable.bind(this)
-        this.freeze = this.freeze.bind(this)
+        //this.freeze = this.freeze.bind(this)
         this.calcurate = this.calcurate.bind(this) 
+
+        this.startMoveDownInterval = this.startMoveDownInterval.bind(this)
+        this.restartMoveDownInterval = this.restartMoveDownInterval.bind(this)
 
         this.height = PLAYGROUND.walls.length
         this.width = PLAYGROUND.walls[0].blocks.length
@@ -233,41 +234,24 @@ export default class GameController extends Component {
             const walls = prevState.walls
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
-                const y = position.y + this.current.y
-                //walls[y].blocks[x].className = 'block-i'
-                walls[y].blocks[x].className = this.tetromino.blockClass
+                const y = position.y + this.current.y 
+                //walls[y].blocks[x].className = this.tetromino.blockClass
+                walls[y].blocks[x] = {...walls[y].blocks[x], className: this.tetromino.blockClass}
             })
             return { walls: walls }
         })
-
-        this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+        this.startMoveDownInterval()
+        //this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
     }
 
     move(dx, dy) {
         this.setState(prevState => {
-            // const walls = prevState.walls
-            // this.tetromino.positions.forEach(position => {
-            //     const x = position.x + this.current.x
-            //     const y = position.y + this.current.y
-            //     walls[y].blocks[x].className = 'empty'
-            // })
- 
-            // this.current.x += dx
-            // this.current.y += dy 
-
-            // this.tetromino.positions.forEach(position => {
-            //     const x = position.x + this.current.x
-            //     const y = position.y + this.current.y
-            //     //walls[y].blocks[x].className = 'block-i'
-            //     walls[y].blocks[x].className = this.tetromino.blockClass
-            // })
-            // return { walls: walls }
-
+            
             const walls = prevState.walls
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
-                const y = position.y + this.current.y
-                walls[y].blocks[x].className = 'empty'
+                const y = position.y + this.current.y 
+                walls[y].blocks[x] = {...walls[y].blocks[x], className: 'empty'}
             })
  
             this.current.x += dx
@@ -275,9 +259,8 @@ export default class GameController extends Component {
 
             this.tetromino.positions.forEach(position => {
                 const x = position.x + this.current.x
-                const y = position.y + this.current.y
-                //walls[y].blocks[x].className = 'block-i'
-                walls[y].blocks[x].className = this.tetromino.blockClass
+                const y = position.y + this.current.y 
+                walls[y].blocks[x] = {...walls[y].blocks[x], className: this.tetromino.blockClass}
             })
             return { walls: walls }
 
@@ -295,16 +278,15 @@ export default class GameController extends Component {
                 const walls = prevState.walls
                 this.tetromino.positions.forEach(position => {
                     const x = position.x + this.current.x
-                    const y = position.y + this.current.y
-                    walls[y].blocks[x].className = 'empty'
+                    const y = position.y + this.current.y 
+                    walls[y].blocks[x] = {...walls[y].blocks[x], className: 'empty'}
                 })
                 this.tetromino.direction = direction
                 this.tetromino.positions = positions
                 this.tetromino.positions.forEach(position => {
                     const x = position.x + this.current.x
-                    const y = position.y + this.current.y
-                    //walls[y].blocks[x].className = 'block-i'
-                    walls[y].blocks[x].className = this.tetromino.blockClass
+                    const y = position.y + this.current.y  
+                    walls[y].blocks[x] = {...walls[y].blocks[x], className: this.tetromino.blockClass}
                 })
                 return { walls: walls }
             })
@@ -368,20 +350,7 @@ export default class GameController extends Component {
             return x < 0 || x > this.width - 1 || y > this.height - 1 || this.state.walls[y].blocks[x].className.includes('freezed')
         })
     }
-
-    freeze() {
-        this.setState(prevState => {
-            const walls = prevState.walls
-
-            this.tetromino.positions.forEach(position => {
-                let x = position.x + this.current.x
-                let y = position.y + this.current.y
-                walls[y].blocks[x].className = walls[y].blocks[x].className + ' freezed'
-            });
-            return { walls: walls }
-        })
-    }
-
+ 
     calcurate() {
         let score = this.state.score;
         this.setState(prevState => {
@@ -389,9 +358,8 @@ export default class GameController extends Component {
             let status = prevState.status
             this.tetromino.positions.forEach(position => {
                 let x = position.x + this.current.x
-                let y = position.y + this.current.y
-                //walls[y].blocks[x].className = 'freezed'
-                walls[y].blocks[x].className = walls[y].blocks[x].className + ' freezed'
+                let y = position.y + this.current.y 
+                walls[y].blocks[x] = {...walls[y].blocks[x], className: walls[y].blocks[x].className + ' freezed'}
                 
             });
 
@@ -404,8 +372,7 @@ export default class GameController extends Component {
             })
 
             for (let y = min; y <= max; y++) {
-                const isFreezed = walls[y].blocks.every(block => {
-                    //return block.className === 'freezed'
+                const isFreezed = walls[y].blocks.every(block => { 
                     return block.className.includes('freezed')
                 })
 
@@ -413,27 +380,28 @@ export default class GameController extends Component {
                     //this.score += 10
                     //this.setState((prevState) => { return { score: prevState.score + 10 } })
                     score += 10
-                    walls.splice(y, 1)
 
+                    //불변성 유지를 위해 코드값 변경 
+                    //walls.splice(y, 1)
+                    walls.filter((wall,index) => index !== y )
 
-                    let wall = {
-                        id: '0',
-                        className: 'wall',
-                        position: 0,
-                        blocks: [
-                            { id: 'bid' + 0, className: 'empty' },
-                            { id: 'bid' + 1, className: 'empty' },
-                            { id: 'bid' + 2, className: 'empty' },
-                            { id: 'bid' + 3, className: 'empty' },
-                            { id: 'bid' + 4, className: 'empty' },
-                            { id: 'bid' + 5, className: 'empty' },
-                            { id: 'bid' + 6, className: 'empty' },
-                            { id: 'bid' + 7, className: 'empty' },
-                            { id: 'bid' + 8, className: 'empty' },
-                            { id: 'bid' + 9, className: 'empty' },
+                    let wall = Object.assign({}, EMPTY_WALL)  
+                    wall.blocks = [
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
+                            { className: 'empty' },
                         ]
-                    }
-                    walls.unshift(wall)
+                    
+                    //불변성 유지를 위해 코드값 변경 
+                    //walls.unshift(wall)
+                    walls = wall.concat(walls)
                 }
             }
 
@@ -481,7 +449,10 @@ export default class GameController extends Component {
                 break
             case 32:
                 //debugger
-                this.moveToBottom()
+                // clearInterval(this.timerId)
+                // this.moveToBottom()
+                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+                this.restartMoveDownInterval(this.moveToBottom)
                 break
             case 37:
                 this.moveToLeft()
@@ -495,11 +466,17 @@ export default class GameController extends Component {
             case 87:
                 this.rotate()
                 break
-            case 40:
-                this.moveToDown()
+            case 40: 
+                // clearInterval(this.timerId)
+                // this.moveToDown()
+                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+                this.restartMoveDownInterval(this.moveToDown)
                 break
             case 83:
-                this.moveToDown()
+                // clearInterval(this.timerId)
+                // this.moveToDown()
+                // this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+                this.restartMoveDownInterval(this.moveToDown)
                 break
             case 39:
                 this.moveToRight()
@@ -510,6 +487,16 @@ export default class GameController extends Component {
             default:
                 break;
         }
+    }
+
+    startMoveDownInterval(){
+        this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
+    }
+
+    restartMoveDownInterval(job){
+        clearInterval(this.timerId)
+        job()
+        this.timerId = setInterval(() => { this.moveToDown() }, 1000 - 100 * (this.level - 1))
     }
 
     resetGame() {
